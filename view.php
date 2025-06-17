@@ -1,3 +1,15 @@
+<?php
+require 'db.php';
+
+$stmt = $pdo->query("
+    SELECT c.content, c.created_at, u.username
+    FROM comment c
+    JOIN user u ON c.user_id = u.id
+    ORDER BY c.created_at DESC
+");
+$comments = $stmt->fetchAll();
+?>
+
 <!DOCTYPE html>
 <html lang="ja">
 <head>
@@ -9,20 +21,16 @@
     <h1>📜 投稿一覧</h1>
     <p><a href="form.php">← 投稿フォームへ戻る</a></p>
     <hr>
-    <?php
-    $filename = 'comments.txt';
-    if (file_exists($filename)) {
-        $lines = file($filename, FILE_IGNORE_NEW_LINES);
-        foreach (array_reverse($lines) as $line) {
-            [$time, $name, $comment] = explode("\t", $line);
-            echo "<div class='post'>";
-            echo "<p><strong>$name</strong> さん ($time)</p>";
-            echo "<p>" . nl2br($comment) . "</p>";
-            echo "</div><hr>";
-        }
-    } else {
-        echo "<p>まだ投稿がありません。</p>";
-    }
-    ?>
+    <?php if (count($comments) === 0): ?>
+        <p>まだ投稿がありません。</p>
+    <?php else: ?>
+        <?php foreach ($comments as $comment): ?>
+            <div class="post">
+                <p><strong><?= htmlspecialchars($comment['username']) ?></strong> さん (<?= htmlspecialchars($comment['created_at']) ?>)</p>
+                <p><?= nl2br(htmlspecialchars($comment['content'])) ?></p>
+            </div>
+            <hr>
+        <?php endforeach; ?>
+    <?php endif; ?>
 </body>
 </html>
