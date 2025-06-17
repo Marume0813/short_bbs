@@ -1,7 +1,7 @@
 <?php
-    $dsn = 'mysql:host=localhost;dbname=short_bbs_db;charset=utf8';
-    $user = 'root';
-    $password = '';
+    $dsn = 'mysql:host=mysql320.phy.lolipop.lan;dbname=LAA1553906-shortdb;charset=utf8';
+    $user = 'LAA1553906';
+    $password = 'Pass0813';
  
     try {
         $pdo = new PDO($dsn, $user, $password);
