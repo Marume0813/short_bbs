@@ -4,7 +4,7 @@
         header("Location: login.html"); // ログインページへ戻す
         exit;
     }
-
+  
     $username = htmlspecialchars($_SESSION['user']['username']);
 ?>
 
